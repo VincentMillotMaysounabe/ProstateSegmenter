@@ -51,7 +51,11 @@ dataset = dataset.shuffle(buffer_size=num_files)
 # Training
 print("Training starts...")
 history_list = []
-for input_batch, output_batch in dataset:
-    history = unet_model.fit(x=input_batch, y=output_batch)  # Validation ? Epochs ?
-    history_list.append(history)
-    unet_model.save("UNETV3_model_chkpt" + str(len(history_list)) + ".h5")
+for epoch in range(EPOCHS):
+    print(f"Epoch..................{epoch}/{EPOCHS}")
+    for input_batch, output_batch in dataset:
+        history = unet_model.fit(x=input_batch, y=output_batch, validation_split=VALIDATION_SPLIT)
+        history_list.append(history)
+        unet_model.save(r"Models\UNETV3_model_chkpt" + str(len(history_list)) + ".h5")
+
+unet_model.save(r"MODELS\UNET.h5")

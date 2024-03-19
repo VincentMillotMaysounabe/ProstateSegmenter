@@ -97,6 +97,7 @@ def preprocess(input_shape, train_split):
     n_files = dataset.nbSubjects
     n_train_files = int(n_files*train_split)
     N_BATCHS = n_files // BATCH_SIZE
+    n_inputs = 0
 
     for b in range(0, N_BATCHS):
         # inputs=[]
@@ -133,12 +134,14 @@ def preprocess(input_shape, train_split):
         print("Saving preprocessed files...")
         for i in range(len(all_inputs)):
             if k <= n_train_files:
-                np.save(fr'Inputs\train\input\{k+i}.npy', all_inputs[i])
-                np.save(fr'Inputs\train\segmentation\{k+i}.npy', segmentations[i])
+                np.save(fr'Inputs\train\input\{n_inputs}.npy', all_inputs[i])
+                np.save(fr'Inputs\train\segmentation\{n_inputs}.npy', segmentations[i])
             else :
-                np.save(fr'Inputs\test\input\{k+i}.npy', all_inputs[i])
-                np.save(fr'Inputs\test\segmentation\{k+i}.npy', segmentations[i])
+                np.save(fr'Inputs\test\input\{n_inputs}.npy', all_inputs[i])
+                np.save(fr'Inputs\test\segmentation\{n_inputs}.npy', segmentations[i])
+            n_inputs += 1
 
 if __name__ == "__main__":
     INPUT_SHAPE = (400, 400, 3)
     preprocess(INPUT_SHAPE)
+
